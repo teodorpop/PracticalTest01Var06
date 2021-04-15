@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="ro.pub.cs.systems.eim.practicaltest01var06.service.PracticalTest01Var06Service"
+            android:exported="true"/>
     </application>
 
 </manifest>

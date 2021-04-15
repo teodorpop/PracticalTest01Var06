@@ -2,8 +2,12 @@ package ro.pub.cs.systems.eim.practicaltest01var06;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+
+import ro.pub.cs.systems.eim.practicaltest01var06.service.PracticalTest01Var06Service;
 
 public class PracticalTest01Var06MainActivity extends AppCompatActivity {
     class KeypadClickListener implements View.OnClickListener {
@@ -82,6 +88,11 @@ public class PracticalTest01Var06MainActivity extends AppCompatActivity {
 
                 break;
         }
+        if (score >= 20) {
+            Intent i = new Intent(this, PracticalTest01Var06Service.class);
+            i.putExtra("score", score);
+            bindService(i, serviceConnection, Context.BIND_AUTO_CREATE);
+        }
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
@@ -102,4 +113,19 @@ public class PracticalTest01Var06MainActivity extends AppCompatActivity {
 
         Toast.makeText(getApplication(), "score = " + score, Toast.LENGTH_LONG).show();
     }
+
+
+    private PracticalTest01Var06Service boundedService;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            PracticalTest01Var06Service.BoundedServiceBinder binder = (PracticalTest01Var06Service.BoundedServiceBinder)service;
+            boundedService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            boundedService = null;
+        }
+    };
 }

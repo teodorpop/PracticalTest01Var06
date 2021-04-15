@@ -6,15 +6,55 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Random;
 
 public class PracticalTest01Var06MainActivity extends AppCompatActivity {
     class KeypadClickListener implements View.OnClickListener {
         public void onClick(View view) {
             switch(view.getId()) {
                 case R.id.play:
-                    break;
+                    Random rand = new Random();
+                    int intstar = rand.nextInt(3) + 1;
+                    int intzero = rand.nextInt(3) + 1;
+                    int intone = rand.nextInt(3) + 1;
 
+                    String text = Integer.toString(intstar) + ", " + Integer.toString(intzero) + ", " + Integer.toString(intone);
+
+                    Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show();
+
+                    int count = 3;
+                    if (!((CheckBox)findViewById(R.id.holdstar)).isChecked()) {
+                        ((EditText)findViewById(R.id.startext)).setText(Integer.toString(intstar));
+                        count--;
+                    } else {
+                        intstar = Integer.parseInt(((EditText)findViewById(R.id.startext)).getText().toString());
+                    }
+                    if (!((CheckBox)findViewById(R.id.hold0)).isChecked()) {
+                        ((EditText)findViewById(R.id.text0)).setText(Integer.toString(intzero));
+                        count--;
+                    } else {
+                        intzero = Integer.parseInt(((EditText)findViewById(R.id.text0)).getText().toString());
+                    }
+                    if (!((CheckBox)findViewById(R.id.hold1)).isChecked()) {
+                        ((EditText)findViewById(R.id.text1)).setText(Integer.toString(intone));
+                        count--;
+                    } else {
+                        intone = Integer.parseInt(((EditText)findViewById(R.id.text1)).getText().toString());
+                    }
+
+                    Intent intent = new Intent("ro.pub.cs.systems.eim.practicaltest01var06.intent.action.PracticalTest01Var06SecondaryActivity");
+                    intent.putExtra("count", count);
+                    intent.putExtra("intstar", intstar);
+                    intent.putExtra("intzero", intzero);
+                    intent.putExtra("intone", intone);
+                    startActivityForResult(intent, 1);
+
+                    break;
             }
         }
     }

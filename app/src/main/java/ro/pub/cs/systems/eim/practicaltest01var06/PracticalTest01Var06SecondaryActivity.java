@@ -1,5 +1,6 @@
 package ro.pub.cs.systems.eim.practicaltest01var06;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,10 @@ public class PracticalTest01Var06SecondaryActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch(view.getId()) {
                 case R.id.ok:
+                    Intent intent = new Intent();
+                    intent.putExtra("score", score);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
                     break;
 
             }
@@ -24,6 +29,8 @@ public class PracticalTest01Var06SecondaryActivity extends AppCompatActivity {
     }
 
     private KeypadClickListener myClickListener = new KeypadClickListener();
+    private int score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +46,19 @@ public class PracticalTest01Var06SecondaryActivity extends AppCompatActivity {
                 switch (count) {
                     case 0:
                         ((TextView)findViewById(R.id.gained)).setText("Gained: 100");
+                        score = 100;
                         break;
                     case 1:
                         ((TextView)findViewById(R.id.gained)).setText("Gained: 50");
+                        score = 50;
                         break;
                     case 2:
                         ((TextView)findViewById(R.id.gained)).setText("Gained: 10");
+                        score = 10;
                         break;
                     default:
                         ((TextView)findViewById(R.id.gained)).setText("Gained: 0");
+                        score = 0;
                         break;
                 }
 

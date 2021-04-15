@@ -57,7 +57,10 @@ public class PracticalTest01Var06MainActivity extends AppCompatActivity {
                     break;
             }
         }
+
     }
+
+    private int score = 0;
 
     private KeypadClickListener myClickListener = new KeypadClickListener();
     @Override
@@ -66,5 +69,37 @@ public class PracticalTest01Var06MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_practical_test01_var06_main);
 
         findViewById(R.id.play).setOnClickListener(myClickListener);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        switch(requestCode) {
+            case 1:
+                int tmp = intent.getIntExtra("score", -1);
+                if (tmp > 0) score += tmp;
+
+                Toast.makeText(getApplication(), "score = " + score, Toast.LENGTH_LONG).show();
+
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("score", score);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState.get("score") != null) {
+            score = savedInstanceState.getInt("score");
+        }
+
+        Toast.makeText(getApplication(), "score = " + score, Toast.LENGTH_LONG).show();
     }
 }
